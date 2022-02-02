@@ -19,6 +19,7 @@ public class HelloController {
     private Label textLabel;
     int numberWords = 0;
     public Map<String, Integer> words = new HashMap<>();
+    public Map<Character, Integer> characters = new HashMap<>();
 
     @FXML
     protected void openFileReader() {
@@ -32,8 +33,8 @@ public class HelloController {
         //fileChooser.showOpenDialog(new Stage());
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
-            System.out.println(file.getName());
-            System.out.println(file.getPath());
+            System.out.println("File name: " + file.getName());
+            System.out.println("Path to file: " + file.getPath());
             textLabel.setText("You have chosen: " + file.getName());
 
 
@@ -48,32 +49,56 @@ public class HelloController {
                 String[] word = data.split(" ");
                 numberWords = word.length;
 
-                for (int i = 0; i < word.length; i++) {
-                    if (words.containsKey(word[i])) {
-                        words.get(word[i]);
-                    } else {
-                        putWord(word[i], 0);
-                    }
+                char[] characters = data.toCharArray();
+                System.out.println("Number of characters: " + characters.length);
 
+                for (int j = 0; j < characters.length; j++) {
+                    putCharacter(characters[j], 1);
                 }
 
-                System.out.println(words + " - ");
+                for (int i = 0; i < word.length; i++) {
+                    putWord(word[i], 1);
+                }
 
-                System.out.println(data);
-                System.out.println("----" + Arrays.toString(word) + "   " + numberWords);
+                System.out.println("Used words + number: " + words);
+
+                System.out.println("File content: " + data);
+                System.out.println("Text without space: " + Arrays.toString(word) + "\nTotal number of words: " + numberWords);
+                System.out.println("Characters: " + Arrays.toString(characters));
             }
             sc.close();
+            calculateFrequency();
         } else {
             textLabel.setText("No file");
         }
     }
 
     public void putWord(String name, int number) {
-        if (words.containsKey(name)) {
+        if (!words.containsKey(name)) {
             words.put(name, number);
         } else {
-            //words.get(name).
+            Integer count = words.get(name);
+            words.put(name, ++count);
         }
+    }
+
+    public void putCharacter(char character, int number) {
+        if (!characters.containsKey(character)) {
+            characters.put(character, number);
+        } else {
+            number = characters.get(character);
+            characters.put(character, ++number);
+        }
+    }
+
+    public void calculateFrequency() {
+        for (int i = 0; i < words.size(); i++) {
+            //System.out.println(words.get(i).toString());
+        }
+    }
+
+    public void checkCharacters() {
+
     }
 
 }
