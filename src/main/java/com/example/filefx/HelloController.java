@@ -1,6 +1,11 @@
 package com.example.filefx;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -9,12 +14,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.net.URL;
+import java.util.*;
 
-public class HelloController {
+public class HelloController implements Initializable {
+    public CategoryAxis wordNumber;
+    public NumberAxis wordFrequency;
+    public StackedBarChart wordGraph;
     @FXML
     private Label textLabel;
     int numberWords = 0;
@@ -101,4 +107,18 @@ public class HelloController {
 
     }
 
+    public void setGraph() {
+        wordGraph.setTitle("Word frequency");
+        XYChart.Series series = new XYChart.Series();
+
+        series.getData().add(new XYChart.Data<>(words.get("100"), 1));
+        series.getData().add(new XYChart.Data<>("10", 5));
+
+        wordGraph.getData().add(series);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setGraph();
+    }
 }
